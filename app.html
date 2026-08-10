@@ -1,25 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onlice Sale Product</title>
+
+    <title>Online Sale Product</title>
+
     <link rel="stylesheet" href="appstyle.css">
-</head> 
+</head>
+
 <body>
-    <h1 "text"> Online Sale Product</h1>
-    <input type="text"
-    id="categoryName"
-    placeholder="Enter Category Name">
-   <button id="addCategoryBtn">
-Add Category
-</button>
 
-<hr>
+    <div class="container">
 
-<div id="categoryList"></div>
+        <h1>🛍️ Online Sale Product</h1>
 
-<script src="ap.js"></script>
-    
+        <!-- CATEGORY FORM -->
+
+        <div class="category-form">
+
+            <h2>Add Category</h2>
+
+            <input
+                type="text"
+                id="categoryName"
+                placeholder="Enter Category Name"
+            >
+
+            <button id="addCategoryBtn">
+                Add Category
+            </button>
+
+        </div>
+
+    <div class="search-section">
+
+    <h2>Search</h2>
+
+    <input
+        type="text"
+        id="searchCategory"
+        placeholder="Search Category..."
+        oninput="searchData()"
+    >
+
+    <input
+        type="text"
+        id="searchProduct"
+        placeholder="Search Product..."
+        oninput="searchData()"
+    >
+
+</div>
+
+
+        <!-- CATEGORY LIST -->
+
+        <div id="categoryList"></div>
+
+    </div>
+
+
+    <script src="ap.js"></script>
+
 </body>
+
 </html>
