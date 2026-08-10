@@ -97,25 +97,53 @@ function renderCategories() {
         `;
     });
 }
+// UPDATE CATEGORY
 
-// EDIT CATEGORY
+function updateCategory(categoryIndex) {
+
+    let newName =
+        document.getElementById(
+            "editCategoryName" + categoryIndex
+        ).value.trim();
+
+    if (newName === "") {
+
+        alert("Please enter category name");
+
+        return;
+    }
+
+    categories[categoryIndex].name = newName;
+
+    renderCategories();
+}
+
+// EDIT CATEGORY FORM
 
 function editCategory(categoryIndex) {
 
     let category = categories[categoryIndex];
 
-    let newName = prompt(
-        "Enter New Category Name:",
-        category.name
-    );
+    categoryList.innerHTML += `
 
-    if (newName === null || newName.trim() === "") {
-        return;
-    }
+        <div class="product-form">
 
-    category.name = newName.trim();
+            <h3>Edit Category</h3>
 
-    renderCategories();
+            <input
+                type="text"
+                id="editCategoryName${categoryIndex}"
+                value="${category.name}"
+                placeholder="Category Name"
+            >
+
+            <button onclick="updateCategory(${categoryIndex})">
+                Update Category
+            </button>
+
+        </div>
+
+    `;
 }
 
 // DELETE CATEGORY
@@ -233,46 +261,108 @@ function saveProduct(categoryIndex) {
     reader.readAsDataURL(file);
 }
 
-// EDIT PRODUCT
+// EDIT PRODUCT FORM
 
 function editProduct(categoryIndex, productIndex) {
 
     let product =
         categories[categoryIndex].products[productIndex];
 
+    categoryList.innerHTML += `
 
-    let newName = prompt(
-        "Enter Product Name:",
-        product.name
-    );
+        <div class="product-form">
 
-    if (
-        newName === null ||
-        newName.trim() === ""
-    ) {
+            <h3>Edit Product</h3>
+
+            <input
+                type="text"
+                id="editProductName${categoryIndex}${productIndex}"
+                value="${product.name}"
+                placeholder="Product Name"
+            >
+
+            <input
+                type="number"
+                id="editProductPrice${categoryIndex}${productIndex}"
+                value="${product.price}"
+                placeholder="Product Price"
+            >
+
+            <input
+                type="file"
+                id="editProductImage${categoryIndex}${productIndex}"
+                accept="image/*"
+            >
+
+            <button
+                onclick="updateProduct(${categoryIndex}, ${productIndex})">
+                Update Product
+            </button>
+
+        </div>
+
+    `;
+}
+// UPDATE PRODUCT
+
+function updateProduct(categoryIndex, productIndex) {
+
+    let productName =
+        document.getElementById(
+            "editProductName" +
+            categoryIndex +
+            productIndex
+        ).value.trim();
+
+    let productPrice =
+        document.getElementById(
+            "editProductPrice" +
+            categoryIndex +
+            productIndex
+        ).value;
+
+    let imageInput =
+        document.getElementById(
+            "editProductImage" +
+            categoryIndex +
+            productIndex
+        );
+
+    if (productName === "" || productPrice === "") {
+
+        alert("Please enter product details");
+
         return;
     }
 
+    let product =
+        categories[categoryIndex].products[productIndex];
 
-    let newPrice = prompt(
-        "Enter Product Price:",
-        product.price
-    );
+    product.name = productName;
+    product.price = productPrice;
 
-    if (
-        newPrice === null ||
-        newPrice.trim() === ""
-    ) {
-        return;
+
+    // Agar new image select ki hai
+    if (imageInput.files[0]) {
+
+        let reader = new FileReader();
+
+        reader.onload = function () {
+
+            product.image = reader.result;
+
+            renderCategories();
+        };
+
+        reader.readAsDataURL(imageInput.files[0]);
+
+    } else {
+
+        // Agar new image nahi select ki
+        // purani image same rahegi
+
+        renderCategories();
     }
-
-
-    product.name = newName.trim();
-
-    product.price = newPrice.trim();
-
-
-    renderCategories();
 }
 
 // DELETE PRODUCT
